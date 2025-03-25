@@ -1,0 +1,54 @@
+cabal-version:      3.0
+name:               minimal-megaparsec-tutorial
+version:            1.0.0
+synopsis:           A minimal example of usage of megaparsec
+homepage:           https://github.com/tweag/minimal-megaparsec-tutorial
+license:            MIT
+license-file:       LICENSE
+author:             Clément Hurlin
+maintainer:         clement.hurlin@moduscreate.com
+category:           Development
+build-type:         Simple
+
+common min-mega-common
+    ghc-options: -Wall
+                 -Werror
+
+    build-depends:    base ^>=4.20.0.0,
+                      aeson,
+                      bytestring,
+                      containers,
+                      extra,
+                      filepath,
+                      megaparsec,
+                      mtl,
+                      split,
+                      text,
+                      utf8-string,
+                      vector
+
+    default-language: GHC2024
+    default-extensions: OverloadedStrings
+
+library min-mega-lib
+    import:           min-mega-common
+    exposed-modules:  Lib,
+                      Render
+    build-depends:
+    hs-source-dirs:   src
+    default-language: GHC2024
+
+executable min-mega-exe
+    import:           min-mega-common
+    main-is:          Main.hs
+    build-depends:    min-mega-lib
+    hs-source-dirs:   app
+
+Test-Suite min-mega-test
+    import:           min-mega-common
+    type:             exitcode-stdio-1.0
+    main-is:          Main.hs
+    hs-source-dirs:   test
+    other-modules:
+    build-depends:    hspec,
+                      min-mega-lib

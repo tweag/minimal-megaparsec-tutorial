@@ -1,0 +1,5 @@
+HLine 0 0 8; HLine 0 4 8; VLine 0 0 5; VLine 7 0 2; VLine 7 3 2
+HLine 8 1 2; HLine 8 3 2
+HLine 10 0 6; HLine 10 4 6; VLine 10 0 2; VLine 10 3 2; VLine 15 0 5
+Start 2 1
+Cell 13 3 ~; Cell 14 3 ~; Cell 14 2 ~
