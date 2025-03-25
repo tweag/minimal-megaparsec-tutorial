@@ -1,0 +1,17 @@
+name: Lint
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  lint:
+    runs-on: [ubuntu-latest]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check Haskell files formatting with Ormolu
+        uses: haskell-actions/run-ormolu@v17
+        with:
+          version: "0.8.0.0"
