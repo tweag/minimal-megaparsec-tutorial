@@ -2,7 +2,16 @@ module Render where
 
 import Lib
 import Control.Monad.Extra (forM_)
-import Data.Maybe (fromMaybe)
+import Data.Maybe (fromMaybe, mapMaybe)
+import Data.Set qualified as Set
+import Data.Set (Set)
+
+data Direction =
+    DirUp
+  | DirDown
+  | DirLeft
+  | DirRight
+  deriving (Eq, Show, Enum, Bounded)
 
 render :: [Element] -> IO ()
 render elements = do
@@ -16,6 +25,41 @@ render elements = do
     (width, height) = computeWidthAndHeight elements
     widths = [0 .. width - 1]
     heights = [0 .. height - 1]
+    starts = Set.fromList $ mapMaybe (\e -> case e of Start x y -> Just (x, y); _ -> Nothing) elements
+    reachableCells = Set.foldr (\start acc -> Set.union acc (reachableFromStart start elements)) Set.empty starts
+
+type CellsSet = Set (Int, Int)
+
+reachableFromStart :: (Int, Int) -> [Element] -> CellsSet 
+reachableFromStart start elements =
+  go (Set.singleton start) (Set.singleton start)
+  where
+    size = computeWidthAndHeight elements
+    go ::  CellsSet -> CellsSet -> CellsSet 
+    go visited toVisit
+      | null toVisit = visited
+      | _ =
+        let cell = Set.findMin toVisit
+            newToVisit = Set.delete cell toVisit in
+        if not (inMap size cell) || Set.member cell visited
+      | not (inMap size toVisit) = visited
+      | otherwise = go newVisited newToVisit
+      where
+        newVisited = union visited toVisit
+        newToVisit = foldl (\acc cell -> union acc (reachableCells cell)) empty
+        reachableCells :: (Int, Int) -> CellsSet 
+        reachableCells cell = Set.fromList [moveFrom cell dir | dir <- [DirUp .. DirRight]]
+
+inMap :: (Int, Int) -> (Int, Int) -> Bool
+inMap (width, height) (x, y) = x >= 0 && x < width && y >= 0 && y < height
+
+moveFrom :: (Int, Int) -> Direction -> (Int, Int)
+moveFrom (x, y) =
+  \case
+    DirUp -> (x, y - 1)
+    DirDown -> (x, y + 1)
+    DirLeft -> (x - 1, y)
+    DirRight -> (x + 1, y)
 
 renderCell :: [Element] -> (Int, Int) -> Maybe Char
 renderCell elements cell =
