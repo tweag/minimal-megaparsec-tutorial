@@ -31,7 +31,8 @@ common min-mega-common
 
 library min-mega-lib
     import:           min-mega-common
-    exposed-modules:  Lib
+    exposed-modules:  Lib,
+                      Render
     build-depends:
     hs-source-dirs:   src
     default-language: GHC2024
