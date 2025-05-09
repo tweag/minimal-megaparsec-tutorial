@@ -49,9 +49,9 @@ main = hspec $ do
       runMyParser parseElements "HLine 0 0 1;;VLine 0 0 1" `shouldSatisfy` isLeft
   describe "render" $ do
     it "render" $ do
-      computeWidthAndHeight [Cell 0 0 Wall] `shouldBe` (0, 0)
-      computeWidthAndHeight [HorizontalLine 0 0 1] `shouldBe` (0, 0)
-      computeWidthAndHeight [VerticalLine 0 0 3] `shouldBe` (0, 2)
-      computeWidthAndHeight [HorizontalLine 0 0 1, VerticalLine 0 0 1] `shouldBe` (0, 0)
-      computeWidthAndHeight [HorizontalLine 0 0 3] `shouldBe` (2, 0)
-      computeWidthAndHeight [HorizontalLine 0 0 3, VerticalLine 0 0 2] `shouldBe` (2, 1)
+      maxXY [Cell 0 0 Wall] `shouldBe` (0, 0)
+      maxXY [HorizontalLine 0 0 1] `shouldBe` (0, 0)
+      maxXY [VerticalLine 0 0 3] `shouldBe` (0, 2)
+      maxXY [HorizontalLine 0 0 1, VerticalLine 0 0 1] `shouldBe` (0, 0)
+      maxXY [HorizontalLine 0 0 3] `shouldBe` (2, 0)
+      maxXY [HorizontalLine 0 0 3, VerticalLine 0 0 2] `shouldBe` (2, 1)
