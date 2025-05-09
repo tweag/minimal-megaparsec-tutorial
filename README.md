@@ -3,7 +3,7 @@
 
 ## minimal-megaparsec-tutorial
 
-Welcome 👋 This is the repository accompanying the [minimal megaparsec tutorial](TODO) blog post from Tweag's website.
+Welcome 👋 This is the repository accompanying the [minimal megaparsec tutorial](https://www.tweag.io/blog/2025-04-24-minimal-megaparsec-tutorial/) blog post from Tweag's website.
 It can be forked to obtain a complete setup for experimenting with the
 [megaparsec](https://hackage.haskell.org/package/megaparsec-9.7.0/docs/Text-Megaparsec.html) library.
 
