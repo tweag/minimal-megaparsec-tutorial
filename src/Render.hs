@@ -42,10 +42,10 @@ computeWidthAndHeight :: [Element] -> (Int, Int)
 computeWidthAndHeight =
   foldl
     ( \(w, h) e -> case e of
-        HorizontalLine x _ l -> (max w (x + l), h)
-        VerticalLine _ y l -> (w, max h (y + l))
-        Cell x y _ -> (max w x, max h y)
-        Start x y -> (max w x, max h y)
+        HorizontalLine x y l -> (max w (x + l), max h (y + 1))
+        VerticalLine x y l -> (max w (x + 1), max h (y + l))
+        Cell x y _ -> (max w (x + 1), max h (y + 1))
+        Start x y -> (max w (x + 1), max h (y + 1))
     )
     (0, 0)
 
