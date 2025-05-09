@@ -13,7 +13,7 @@ render elements = do
       putChar (fromMaybe ' ' symbol)
     putStrLn ""
   where
-    (width, height) = computeWidthAndHeight elements
+    (width, height) = maxXY elements
     widths = [0 .. width]
     heights = [0 .. height]
 
@@ -39,11 +39,10 @@ elementContains element (cx, cy) =
     Cell x y _ -> (x == cx) && (y == cy)
     Start x y -> (x == cx) && (y == cy)
 
--- | Compute the width and height of the map. This is the maximum
--- size of the x and y coordinates of all elements. Iterating over [0..w]
+-- | Compute the maximum coordinate of an element in the map. Iterating over [0..w]
 -- and [0..h] will cover all elements.
-computeWidthAndHeight :: [Element] -> (Int, Int)
-computeWidthAndHeight =
+maxXY :: [Element] -> (Int, Int)
+maxXY =
   foldl
     ( \(w, h) e ->
         let mw = maxX e; mh = maxY e
