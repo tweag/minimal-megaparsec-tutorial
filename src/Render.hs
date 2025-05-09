@@ -27,7 +27,8 @@ renderCell elements cell =
       case e of
         Start _ _ -> Just '>'
         Cell _ _ s -> Just $ symbolToChar s
-        _ -> Just '#'
+        HorizontalLine {} -> Just '#'
+        VerticalLine {} -> Just '#'
     go (_ : es) = go es
 
 elementContains :: Element -> (Int, Int) -> Bool
