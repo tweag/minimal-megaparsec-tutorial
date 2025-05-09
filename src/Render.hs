@@ -14,8 +14,8 @@ render elements = do
     putStrLn ""
   where
     (width, height) = computeWidthAndHeight elements
-    widths = [0 .. width - 1]
-    heights = [0 .. height - 1]
+    widths = [0 .. width]
+    heights = [0 .. height]
 
 renderCell :: [Element] -> (Int, Int) -> Maybe Char
 renderCell elements cell =
@@ -45,13 +45,29 @@ elementContains element (cx, cy) =
 computeWidthAndHeight :: [Element] -> (Int, Int)
 computeWidthAndHeight =
   foldl
-    ( \(w, h) e -> case e of
-        HorizontalLine x _ l -> (max w (x + l), h)
-        VerticalLine _ y l -> (w, max h (y + l))
-        Cell x y _ -> (max w x, max h y)
-        Start x y -> (max w x, max h y)
+    ( \(w, h) e ->
+        let mw = maxX e; mh = maxY e
+         in (max w mw, max h mh)
     )
     (0, 0)
+
+-- | Compute the maximum x coordinate of an element. Iterating over
+-- [0..returned value] covers all elements.
+maxX :: Element -> Int
+maxX = \case
+  HorizontalLine x _ l -> x + l - 1
+  VerticalLine x _ _ -> x
+  Cell x _ _ -> x
+  Start x _ -> x
+
+-- | Compute the maximum y coordinate of an element. Iterating over
+-- [0..returned value] covers all elements.
+maxY :: Element -> Int
+maxY = \case
+  HorizontalLine _ y _ -> y
+  VerticalLine _ y l -> y + l - 1
+  Cell _ y _ -> y
+  Start _ y -> y
 
 symbolToChar :: Symbol -> Char
 symbolToChar = \case
