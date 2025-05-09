@@ -4,6 +4,7 @@ module Main where
 
 import Data.Either (isLeft)
 import Lib
+import Render
 import Test.Hspec
 
 -- | Run me with @cabal test min-mega-test@
@@ -46,3 +47,11 @@ main = hspec $ do
       runMyParser parseElements "HLine 0 0 1\n\nVLine 0 0 1" `shouldBe` (Right $ [HorizontalLine 0 0 1, VerticalLine 0 0 1])
 
       runMyParser parseElements "HLine 0 0 1;;VLine 0 0 1" `shouldSatisfy` isLeft
+  describe "render" $ do
+    it "render" $ do
+      computeWidthAndHeight [Cell 0 0 Wall] `shouldBe` (0, 0)
+      computeWidthAndHeight [HorizontalLine 0 0 1] `shouldBe` (0, 0)
+      computeWidthAndHeight [VerticalLine 0 0 3] `shouldBe` (0, 2)
+      computeWidthAndHeight [HorizontalLine 0 0 1, VerticalLine 0 0 1] `shouldBe` (0, 0)
+      computeWidthAndHeight [HorizontalLine 0 0 3] `shouldBe` (2, 0)
+      computeWidthAndHeight [HorizontalLine 0 0 3, VerticalLine 0 0 2] `shouldBe` (2, 1)
