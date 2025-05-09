@@ -62,4 +62,6 @@ jobs:
 
       - name: Run integration tests
         run: |
-          cabal run min-mega-exe -- --input-map map.txt
+          # In a production codebase, this kind of golden tests would be in the Haskell test suite, not here.
+          cabal run -v0 min-mega-exe -- --input-map map.txt > expected-map.txt
+          diff .github/golden/map.txt expected-map.txt
