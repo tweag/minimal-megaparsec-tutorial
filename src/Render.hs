@@ -39,6 +39,9 @@ elementContains element (cx, cy) =
     Cell x y _ -> (x == cx) && (y == cy)
     Start x y -> (x == cx) && (y == cy)
 
+-- | Compute the width and height of the map. This is the maximum
+-- size of the x and y coordinates of all elements. Iterating over [0..w]
+-- and [0..h] will cover all elements.
 computeWidthAndHeight :: [Element] -> (Int, Int)
 computeWidthAndHeight =
   foldl
